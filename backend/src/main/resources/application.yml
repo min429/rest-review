@@ -1,5 +1,6 @@
 server:
   port: 8080 # default
+  shutdown: graceful
 
 spring:
   output:
@@ -20,9 +21,11 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect # JPA가 사용하는 sql을 mysql로 설정
 
   datasource:
-    url: jdbc:mysql://localhost:3306/sbb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:3307/sbb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
     username: root
     password:
+    hikari:
+      auto-commit: false
 
 logging:
   level:
