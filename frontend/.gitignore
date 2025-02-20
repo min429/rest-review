@@ -160,3 +160,8 @@ dist
 *.njsproj
 *.sln
 *.sw?
+
+# Custom
+.env
+.env.development
+.env.production
