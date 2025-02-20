@@ -2,6 +2,9 @@ server:
   port: 8080 # default
   shutdown: graceful
 
+cors:
+  allowed-origins: "http://localhost:5173"
+
 spring:
   output:
     ansi:
