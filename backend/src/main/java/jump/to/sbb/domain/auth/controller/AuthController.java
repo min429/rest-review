@@ -1,16 +1,21 @@
 package jump.to.sbb.domain.auth.controller;
 
+import java.io.IOException;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jump.to.sbb.domain.auth.dto.LoginRequest;
 import jump.to.sbb.domain.auth.dto.SignupRequest;
@@ -41,5 +46,19 @@ public class AuthController {
 	public ResponseEntity<Void> signup(@RequestBody @Valid SignupRequest request) {
 		authService.create(request);
 		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
+		SecurityContextHolder.clearContext();
+		request.getSession().invalidate();
+		response.setHeader("Set-Cookie", "JSESSIONID=; Path=/; HttpOnly; Secure; Max-Age=0");
+
+		return ResponseEntity.ok().build();
+	}
+
+	@GetMapping("/unauthorized")
+	public void unauthorized(HttpServletResponse response) throws IOException {
+		response.sendError(HttpStatus.UNAUTHORIZED.value(), "로그인이 필요합니다.");
 	}
 }
