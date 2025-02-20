@@ -1,6 +1,7 @@
 package jump.to.sbb.domain.post.answer.entity;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -26,7 +27,8 @@ import lombok.NoArgsConstructor;
 public class Answer {
 
 	@ManyToMany
-	Set<SiteUser> voter;
+	@Builder.Default
+	Set<SiteUser> voter = new HashSet<>();
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

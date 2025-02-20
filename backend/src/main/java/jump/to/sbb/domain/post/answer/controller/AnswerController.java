@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
 import jump.to.sbb.domain.auth.dto.CustomUserDetails;
+import jump.to.sbb.domain.post.answer.dto.AnswerDetails;
 import jump.to.sbb.domain.post.answer.dto.CreateAnswerRequest;
 import jump.to.sbb.domain.post.answer.dto.ModifyAnswerRequest;
 import jump.to.sbb.domain.post.answer.service.AnswerService;
@@ -24,10 +25,9 @@ public class AnswerController {
 	private final AnswerService answerService;
 
 	@PostMapping("/create")
-	public ResponseEntity<Void> createAnswer(@RequestBody @Valid CreateAnswerRequest request,
+	public ResponseEntity<AnswerDetails> createAnswer(@RequestBody @Valid CreateAnswerRequest request,
 		@AuthenticationPrincipal CustomUserDetails user) {
-		answerService.create(request, user.getId());
-		return ResponseEntity.ok().build();
+		return ResponseEntity.ok(answerService.create(request, user.getId()));
 	}
 
 	@PostMapping("/modify/{id}")

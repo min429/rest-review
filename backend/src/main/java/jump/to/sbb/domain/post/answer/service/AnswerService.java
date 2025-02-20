@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jump.to.sbb.domain.post.answer.dto.AnswerDetails;
 import jump.to.sbb.domain.post.answer.dto.CreateAnswerRequest;
 import jump.to.sbb.domain.post.answer.dto.ModifyAnswerRequest;
 import jump.to.sbb.domain.post.answer.entity.Answer;
@@ -24,11 +25,12 @@ public class AnswerService {
 	private final UserRepository userRepository;
 	private final QuestionRepository questionRepository;
 
-	public void create(CreateAnswerRequest request, Long userId) {
+	public AnswerDetails create(CreateAnswerRequest request, Long userId) {
 		Question question = getQuestion(request.questionId());
 		SiteUser author = getSiteUser(userId);
 		Answer answer = request.toEntity(question, author);
 		question.add(answer);
+		return AnswerDetails.from(answer);
 	}
 
 	public void modify(Long id, ModifyAnswerRequest request, Long userId) {
